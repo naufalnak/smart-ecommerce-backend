@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: ecommerce_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env
+    environment:
+      - TZ=Asia/Jakarta
+
+  db:
+    image: postgres:15
+    container_name: ecommerce_db
+    restart: always
+    environment:
+      POSTGRES_DB: ecommerce
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      TZ: Asia/Jakarta
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    container_name: ecommerce_redis
+    ports:
+      - "6379:6379"
+
+  celery:
+    build: .
+    container_name: ecommerce_celery
+    command: celery -A app.workers.tasks worker --loglevel=info --pool=solo
+    depends_on:
+      - redis
+      - db
+    env_file:
+      - .env
+    environment:
+      - TZ=Asia/Jakarta
+    user: "1000:1000"
