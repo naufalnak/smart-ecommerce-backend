@@ -213,4 +213,165 @@ pip install -r requirements.txt
 
 # Environment Variables
 
-Create `.env
+Create `.env`
+
+```env
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/ecommerce
+SECRET_KEY=your_secret_key
+ALGORITHM=HS256
+REDIS_HOST=localhost
+REDIS_PORT=6379
+```
+
+---
+
+# Run Application
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Swagger Docs:
+
+```bash
+http://localhost:8000/docs
+```
+
+---
+
+# Run Docker
+
+```bash
+docker-compose up --build
+```
+
+---
+
+# Run Database Migration
+
+```bash
+alembic upgrade head
+```
+
+---
+
+# Run Celery Worker
+
+```bash
+celery -A app.workers.tasks worker --loglevel=info
+```
+
+---
+
+# API Endpoints
+
+## Auth
+
+* POST `/auth/register`
+* POST `/auth/login`
+
+## Products
+
+* GET `/products`
+* POST `/products`
+
+## Categories
+
+* GET `/categories`
+* POST `/categories`
+
+## Cart
+
+* POST `/cart`
+* PUT `/cart/{product_id}`
+* DELETE `/cart/{product_id}`
+* GET `/cart`
+
+## Orders
+
+* POST `/orders/checkout`
+
+## Recommendation
+
+* GET `/recommendations`
+
+---
+
+# CI/CD
+
+GitHub Actions automatically:
+
+* Install dependencies
+* Run tests
+* Validate build
+
+Workflow file:
+
+```bash
+.github/workflows/ci.yml
+```
+
+---
+
+# Deployment
+
+Recommended platforms:
+
+* Railway
+* Render
+* Fly.io
+
+Live API:
+
+```bash
+https://your-app-url.com
+```
+
+---
+
+# Future Improvements
+
+* Payment gateway integration
+* Elasticsearch product search
+* Kafka event streaming
+* Kubernetes deployment
+* Advanced ML recommendation model
+
+---
+
+# Testing Status (Important Note)
+
+⚠️ Automated testing is currently **partially implemented**.
+
+Pytest setup has been added for:
+
+* Auth testing
+* Product testing
+* Checkout testing
+
+However, some tests are still experiencing issues due to:
+
+* Test database isolation
+* Redis mocking
+* Celery async task mocking
+* Integration environment configuration
+
+This is currently being improved in future iterations.
+
+The core application features are fully functional and manually tested through Swagger/Postman.
+
+---
+
+# Why This Project?
+
+This project was built to demonstrate backend engineering skills beyond basic CRUD applications by implementing:
+
+* scalable architecture
+* caching strategy
+* asynchronous processing
+* transactional checkout logic
+* recommendation system
+* containerization
+* CI/CD pipeline
+
+This project is intended as a portfolio project for Backend Engineer roles.
